@@ -43,6 +43,7 @@ exports.COOKBOOK = 'cookbook'
 exports.BIOGRAPHY = 'biography'
 exports.AUTOBIOGRAPHY = 'autobiography'
 exports.FANATSY = 'fantasy'
+exports.SCHOOL_BOOKS = 'school books'
 exports.OTHER = 'other'
 
 exports.GENRES = [
