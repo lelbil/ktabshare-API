@@ -43,6 +43,7 @@ exports.COOKBOOK = 'cookbook'
 exports.BIOGRAPHY = 'biography'
 exports.AUTOBIOGRAPHY = 'autobiography'
 exports.FANATSY = 'fantasy'
+exports.SCHOOL_BOOK = 'school book'
 exports.OTHER = 'other'
 
 exports.GENRES = [
@@ -69,5 +70,6 @@ exports.GENRES = [
     exports.BIOGRAPHY,
     exports.AUTOBIOGRAPHY,
     exports.FANATSY,
+    exports.SCHOOL_BOOK,
     exports.OTHER,
 ]
