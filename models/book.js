@@ -5,12 +5,13 @@ mongoose.connect('mongodb://localhost/ktabshare')
 const Schema = mongoose.Schema
 
 const bookSchema = new Schema({
-    name: String,
+    title: String,
     author: String,
     ISBN: String,
     coverPath: String,
     status: String,
     language: String,
+    description: String,
     ownerId: String,
     timesRead: { type: Number },
     readyBy: [String],

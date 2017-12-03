@@ -1,5 +1,6 @@
 const Koa = require('koa')
-var bodyParser = require('koa-bodyparser');
+const bodyParser = require('koa-bodyparser')
+const cors = require('koa-cors')
 
 const errors = require('./common/errors')
 const router = require('./routes')
@@ -9,6 +10,7 @@ const PORT = 3005 || process.env.PORT
 
 
 app
+    .use(cors())
     .use(bodyParser())
     .use(async (ctx, next) => {
         ctx.set('Content-Type', 'application/json');
