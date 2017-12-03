@@ -2,8 +2,9 @@
 exports.PENDING_STATUS = 'pending'
 exports.RESERVED_STATUS = 'reserved'
 exports.READY_STATUS = 'ready'
+exports.AWAY_STATUS = 'away'
 
-exports.POSSIBLE_BOOK_STATUS = [exports.PENDING_STATUS, exports.READY_STATUS, exports.RESERVED_STATUS]
+exports.POSSIBLE_BOOK_STATUS = [exports.PENDING_STATUS, exports.READY_STATUS, exports.RESERVED_STATUS, exports.AWAY_STATUS]
 
 //Language
 exports.ARABIC = 'arabic'

@@ -65,6 +65,12 @@ router.post('/', async ctx => {
     ctx.response.body = createdBook
 })
 
+//TODO: Put this route in place 
+router.put('/:id', async ctx => {
+    const _id = ctx.params.id
+
+})
+
 router.delete('/:id', async ctx => {
     const _id = ctx.params.id
     const { deletedCount } = await Book.deleteOne({ _id })

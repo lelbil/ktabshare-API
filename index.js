@@ -5,7 +5,7 @@ const errors = require('./common/errors')
 const router = require('./routes')
 
 const app = new Koa()
-const PORT = 3000 || process.env.PORT
+const PORT = 3005 || process.env.PORT
 
 
 app
@@ -23,7 +23,6 @@ app
             else if (error.name === errors.NOT_FOUND) {
                 ctx.status = 404
                 return ctx.body = error
-
             }
 
             console.log('INTERNAL ERROR', error)//TODO: log properly
