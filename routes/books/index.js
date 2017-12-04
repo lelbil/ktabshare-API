@@ -23,7 +23,7 @@ router.get('/:id', async ctx => {
 
 router.get('/', async ctx => {
     let {perPage = 10, page = 1} = ctx.request.query
-    const { sort = 'name', language } = ctx.request.query
+    const { sort = 'name', language, title } = ctx.request.query
 
     perPage = Number.parseInt(perPage)
     page = Number.parseInt(page) - 1 // Subtracting one because Mongo starts counting from 0
@@ -33,6 +33,7 @@ router.get('/', async ctx => {
 
     const query = {}
     if (language) query.language = language
+    if (title) query.title = {"$regex": title}
 
     const countPromise = Book
         .find(query)
