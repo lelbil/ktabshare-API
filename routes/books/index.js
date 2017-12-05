@@ -33,7 +33,7 @@ router.get('/', async ctx => {
 
     const query = {}
     if (language) query.language = language
-    if (title) query.title = {"$regex": title}
+    if (title) query.title = {"$regex": title, "$options": "i"} //Todo: title is user input, don't I need to sanitize it?
 
     const countPromise = Book
         .find(query)
