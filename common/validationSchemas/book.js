@@ -17,7 +17,7 @@ const ENUMS = require('../enums')
 
 
 exports.postBook = joi.object().keys({
-    name: joi.string().max(255).min(3).required(),
+    title: joi.string().max(255).min(3).required(),
     author: joi.string().max(55).allow(null),
     ISBN: joi.string().allow(null), //TODO: validate ISBNs correctly,
     coverPath: joi.string().max(255).allow(null),
