@@ -15,7 +15,7 @@ const bookSchema = new Schema({
     ownerId: String,
     timesRead: { type: Number },
     readyBy: [String],
-    genre: String,
+    genres: [String],
 })
 
 const Book = mongoose.model('Book', bookSchema)

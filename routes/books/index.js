@@ -24,7 +24,7 @@ router.get('/:id', async ctx => {
 
 router.get('/', async ctx => {
     let {perPage = 10, page = 1} = ctx.request.query
-    const { sort = 'name', languages, title, author } = ctx.request.query
+    const { sort = 'name', languages, genres, title, author } = ctx.request.query
 
     perPage = Number.parseInt(perPage)
     page = Number.parseInt(page) - 1 // Subtracting one because Mongo starts counting from 0
@@ -36,6 +36,7 @@ router.get('/', async ctx => {
     if (title) query.title = {"$regex": title, "$options": "i"} //Todo: title is user input, don't I need to sanitize it?
     if (author) query.author = {"$regex": author, "$options": "i"}
     if (languages) query.language = languages.split(',')
+    if (genres) query.genres = {"$in": genres.split(',')}
 
     const countPromise = Book
         .find(query)

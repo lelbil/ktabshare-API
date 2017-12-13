@@ -23,7 +23,7 @@ exports.postBook = joi.object().keys({
     coverPath: joi.string().max(255).allow(null),
     language: joi.string().valid(ENUMS.LANGUAGES).allow(null).required(),
     ownerId: joi.string().allow(null), //TODO: validate in the correct format
-    genre: joi.string().max(50).valid(ENUMS.GENRES).allow(null)
+    genres: joi.array().items(joi.string().max(50).valid(ENUMS.GENRES)).allow([]).required()
 })
 
 exports.perPage = joi.number().valid(ENUMS.perPage)
