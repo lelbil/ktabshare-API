@@ -18,7 +18,7 @@ app
             await next()
         }
         catch(error) {
-            if (error.name === errors.VALIDATION_ERROR) {
+            if (error.name === errors.VALIDATION_ERROR || error.name === errors.BOOK_ALREADY_RESERVED) {
                 ctx.status = 400
                 return ctx.body = error
             }

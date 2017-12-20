@@ -10,6 +10,7 @@ const bookSchema = new Schema({
     ISBN: String,
     coverPath: String,
     status: String,
+    reservedBy: String,
     language: String,
     description: String,
     ownerId: String,

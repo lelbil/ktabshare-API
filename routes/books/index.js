@@ -3,6 +3,7 @@ const KoaRouter = require('koa-router')
 const Book = require('../../models/book')
 const helper = require('../helper')
 const bookSchemas = require('../../common/validationSchemas/book')
+const enums = require('../../common/enums')
 const ERRORS = require('../../common/errors')
 const defaultBooks = require('../../seeds/bookSeeds')
 
@@ -24,7 +25,7 @@ router.get('/:id', async ctx => {
 
 router.get('/', async ctx => {
     let {perPage = 10, page = 1} = ctx.request.query
-    const { sort = 'name', languages, genres, title, author } = ctx.request.query
+    const { sort = 'name', languages, genres, title, author, status = "ready" } = ctx.request.query
 
     perPage = Number.parseInt(perPage)
     page = Number.parseInt(page) - 1 // Subtracting one because Mongo starts counting from 0
@@ -32,7 +33,9 @@ router.get('/', async ctx => {
     //validation
     helper.mustValidate(perPage, bookSchemas.perPage)
 
-    const query = {}
+    const query = {
+        status
+    }
     if (title) query.title = {"$regex": title, "$options": "i"} //Todo: title is user input, don't I need to sanitize it?
     if (author) query.author = {"$regex": author, "$options": "i"}
     if (languages) query.language = languages.split(',')
@@ -76,6 +79,23 @@ router.post('/', async ctx => {
 router.put('/:id', async ctx => {
     const _id = ctx.params.id
 
+})
+
+router.put('/:id/reservation', async ctx => {
+    const _id = ctx.params.id
+
+    const book = await Book.findOne({ _id })
+    if (book.status === enums.RESERVED_STATUS) {
+        //Todo: this error should never happen as an already reserved book shouldn't be shown to a normal user. Make a log
+        throw {
+            name: ERRORS.BOOK_ALREADY_RESERVED,
+            message: `The book you're trying to reserve is already reserved`
+        }
+    }
+
+    //TODO: add userId to reserved by
+    await Book.updateOne({ _id }, { status: enums.RESERVED_STATUS })
+    ctx.status = 200
 })
 
 router.delete('/:id', async ctx => {
