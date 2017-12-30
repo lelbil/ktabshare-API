@@ -18,12 +18,13 @@ const ENUMS = require('../enums')
 
 exports.postBook = joi.object().keys({
     title: joi.string().max(255).min(3).required(),
-    author: joi.string().max(55).allow(null),
+    author: joi.string().max(55).min(3).allow(null),
     ISBN: joi.string().allow(null), //TODO: validate ISBNs correctly,
     coverPath: joi.string().max(255).allow(null),
     language: joi.string().valid(ENUMS.LANGUAGES).allow(null).required(),
     ownerId: joi.string().allow(null), //TODO: validate in the correct format
-    genres: joi.array().items(joi.string().max(50).valid(ENUMS.GENRES)).allow([]).required()
+    genres: joi.array().items(joi.string().max(50).valid(ENUMS.GENRES)).allow([]).required(),
+    description: joi.string().allow(null).max(1000),
 })
 
 exports.perPage = joi.number().valid(ENUMS.perPage)

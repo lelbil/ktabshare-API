@@ -57,7 +57,7 @@ router.get('/', async ctx => {
         page: ++page,
         perPage,
         count,
-        hasNextPage: (count - page * perPage > 0)? true : false,
+        hasNextPage: count - page * perPage > 0,
     }
 })
 
@@ -67,7 +67,7 @@ router.post('/', async ctx => {
     helper.mustValidate(ctx.request.body, bookSchemas.postBook)
 
     //TODO: add ownerId based on session once users are handled
-    const newBook = new Book(Object.assign({status: 'pending', timesRead: 0, readBy: []}, ctx.request.body))
+    const newBook = new Book(Object.assign({status: 'ready', timesRead: 0, readBy: []}, ctx.request.body)) //TODO: put status back to pending by default
 
     const createdBook = await newBook.save()
 
@@ -114,7 +114,7 @@ router.post('/defaultSeed', async ctx => {//TODO: make this a script
     await Book.db.dropCollection(booksCollectionName)
 
     defaultBooks.forEach(async book => {
-        const newBook = new Book(Object.assign({status: 'pending', timesRead: 0, readBy: []}, book))
+        const newBook = new Book(Object.assign({timesRead: 0, readBy: []}, book))
         await newBook.save()
     })
 
