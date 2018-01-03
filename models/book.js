@@ -2,9 +2,7 @@ const mongoose = require('mongoose')
 
 mongoose.connect('mongodb://localhost/ktabshare')
 
-const Schema = mongoose.Schema
-
-const bookSchema = new Schema({
+const bookSchema = new mongoose.Schema({
     title: String,
     author: String,
     ISBN: String,
