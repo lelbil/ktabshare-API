@@ -5,7 +5,7 @@ const joi = require('joi')
  * @property {String}  email
  * @property {String}  username
  * @property {String}  password      - Hashed and Salted of course
- * @property {string}  passwordConf  - I don't know what is this yet lolz
+ * @property {string}  passwordConf  - Password confirmation (do I need this on the server side?)
  */
 
 exports.postUser = joi.object().keys({
