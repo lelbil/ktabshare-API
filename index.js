@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
 const cors = require('koa-cors')
+const _ = require('lodash')
 
 const errors = require('./common/errors')
 const router = require('./routes')
@@ -18,7 +19,8 @@ app
             await next()
         }
         catch(error) {
-            if (error.name === errors.VALIDATION_ERROR || error.name === errors.BOOK_ALREADY_RESERVED) {
+            //if (error.name === errors.VALIDATION_ERROR || error.name === errors.BOOK_ALREADY_RESERVED) {
+            if (_.includes([errors.VALIDATION_ERROR, errors.BOOK_ALREADY_RESERVED, errors.EXISTING_USERNAME_ERROR, errors.EXISTING_EMAIL_ERROR], error.name)) {
                 ctx.status = 400
                 return ctx.body = error
             }

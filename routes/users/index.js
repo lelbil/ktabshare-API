@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const userSchema = require('../../common/validationSchemas/user')
 const User = require('../../models/user')
 const helper = require('../helper')
+const ERRORS = require('../../common/errors')
 
 router.get('/', ctx => {
     ctx.body = 'Users page'
@@ -20,8 +21,15 @@ router.post('/', async ctx => {
 
     const newUser = new User(Object.assign(user, { password: passwordHash }))
 
-    //TODO: catch existing user/email errors, otherwise it will be a 500
-    await newUser.save()
+    try {
+        await newUser.save()
+    } catch (error) {
+        if (error.code === 11000) {
+            if (error.index === 0) throw { name: ERRORS.EXISTING_EMAIL_ERROR, message: 'This email already exists on our database', }
+            if (error.index === 1) throw { name: ERRORS.EXISTING_USERNAME_ERROR, message: 'This username already exists on our database', }
+        }
+        throw error
+    }
 
     ctx.status = 201
 })
