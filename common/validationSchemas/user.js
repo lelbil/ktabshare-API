@@ -11,6 +11,6 @@ const joi = require('joi')
 exports.postUser = joi.object().keys({
     email: joi.string().email().max(255).min(3).required(),
     username: joi.string().max(55).min(3).required(),
-    password: joi.string().min(6).required(),
-    passwordConf: joi.string().max(255).allow(null),
+    password: joi.string().min(6).max(255).required(),
+    passwordConf: joi.string().valid(joi.ref('password')).required(),
 })

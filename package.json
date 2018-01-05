@@ -9,6 +9,7 @@
   "author": "lelbil",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "bluebird": "^3.5.1",
     "joi": "^13.0.1",
     "koa": "^2.3.0",
