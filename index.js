@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
 const cors = require('koa-cors')
+const session = require('koa-session')
 const _ = require('lodash')
 
 const errors = require('./common/errors')
@@ -9,18 +10,19 @@ const router = require('./routes')
 const app = new Koa()
 const PORT = 3005 || process.env.PORT
 
+app.keys = ['changeThisSecret'] //TODO
 
 app
     .use(cors())
     .use(bodyParser())
+    .use(session(app))
     .use(async (ctx, next) => {
         ctx.set('Content-Type', 'application/json');
         try {
             await next()
         }
         catch(error) {
-            //if (error.name === errors.VALIDATION_ERROR || error.name === errors.BOOK_ALREADY_RESERVED) {
-            if (_.includes([errors.VALIDATION_ERROR, errors.BOOK_ALREADY_RESERVED, errors.EXISTING_USERNAME_ERROR, errors.EXISTING_EMAIL_ERROR], error.name)) {
+            if (_.includes([errors.VALIDATION_ERROR, errors.BOOK_ALREADY_RESERVED, errors.EXISTING_USERNAME_ERROR, errors.EXISTING_EMAIL_ERROR, errors.FAILED_LOGIN], error.name)) {
                 ctx.status = 400
                 return ctx.body = error
             }

@@ -2,7 +2,7 @@ const KoaRouter = require('koa-router')
 const router = new KoaRouter()
 const bcrypt = require('bcrypt')
 
-const userSchema = require('../../common/validationSchemas/user')
+const userValidationSchema = require('../../common/validationSchemas/user')
 const User = require('../../models/user')
 const helper = require('../helper')
 const ERRORS = require('../../common/errors')
@@ -15,7 +15,7 @@ router.post('/', async ctx => {
 
     const user = ctx.request.body
     //validating
-    helper.mustValidate(user, userSchema.postUser)
+    helper.mustValidate(user, userValidationSchema.postUser)
 
     const passwordHash = await bcrypt.hash(user.password, 10)
 
@@ -32,6 +32,16 @@ router.post('/', async ctx => {
     }
 
     ctx.status = 201
+})
+
+router.post('/login', async ctx => {
+    const { username, password } = ctx.request.body
+
+    helper.mustValidate({ username, password }, userValidationSchema.loginUser)
+
+    await User.authenticate(username, password)
+
+    ctx.status = 200
 })
 
 

@@ -14,3 +14,8 @@ exports.postUser = joi.object().keys({
     password: joi.string().min(6).max(255).required(),
     passwordConf: joi.string().valid(joi.ref('password')).required(),
 })
+
+exports.loginUser = joi.object().keys({
+    username: joi.string().max(55).min(3).required(),
+    password: joi.string().min(6).max(255).required(),
+})
