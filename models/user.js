@@ -40,7 +40,7 @@ UserSchema.statics.authenticate = async (username, password) => {
         message: "Login failed",
     }
 
-    return true //ToDo: inquire about that, do I need to return anything here as a best practice (practise?) or not?
+    return user._id
 }
 
 

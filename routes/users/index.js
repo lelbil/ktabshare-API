@@ -39,9 +39,10 @@ router.post('/login', async ctx => {
 
     helper.mustValidate({ username, password }, userValidationSchema.loginUser)
 
-    await User.authenticate(username, password)
+    const userId = await User.authenticate(username, password)
 
     ctx.status = 200
+    ctx.body = userId
 })
 
 
