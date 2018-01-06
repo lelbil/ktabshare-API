@@ -41,8 +41,14 @@ router.post('/login', async ctx => {
 
     const userId = await User.authenticate(username, password)
 
+    ctx.session.userId = userId
     ctx.status = 200
     ctx.body = userId
+})
+
+router.post('/logout', async ctx => {
+    ctx.session.userId = null
+    ctx.status = 200
 })
 
 

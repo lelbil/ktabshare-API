@@ -10,5 +10,15 @@ const router = new KoaRouter()
 
 router.use('/users', require('./users').routes())
 router.use('/books', require('./books').routes())
+router.get('/healthCheck', async ctx => {
+    ctx.status = 200
+})
+//TODO: delete this test route
+router.get('/test', async ctx => {
 
+    ctx.body = ctx.session/*{
+        "erz": "Hello Walid!",
+        session
+    }*/
+})
 module.exports = router
