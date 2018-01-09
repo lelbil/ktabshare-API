@@ -98,6 +98,29 @@ router.put('/:id/reservation', async ctx => {
     ctx.status = 200
 })
 
+router.put('/:id/cancelReservation', async ctx => {
+    const _id = ctx.params.id
+    const userId = ctx.session.userId
+    const book = await Book.findOne({ _id })
+
+    if (book.status !== enums.RESERVED_STATUS) {
+        //Todo: this error should never happen as a ready book shouldn't have a cancel button. Make a log
+        throw {
+            name: ERRORS.BOOK_NOT_RESERVED,
+            message: `You can't cancel a reservation for a book that isn't reserved`,
+        }
+    }
+    if (book.reservedBy !== userId) {
+        throw {
+            name: ERRORS.BOOK_NOT_RESERVED_BY_USER,
+            message: `Can't cancel reservation you didn't make`,
+        }
+    }
+
+    await Book.updateOne({ _id }, { status: enums.READY_STATUS })
+    ctx.status = 200
+})
+
 router.delete('/:id', async ctx => {
     const _id = ctx.params.id
     const { deletedCount } = await Book.deleteOne({ _id })
