@@ -43,7 +43,6 @@ router.post('/login', async ctx => {
 
     ctx.session.userId = userId
     ctx.status = 200
-    //ctx.body = userId
 })
 
 router.post('/logout', async ctx => {

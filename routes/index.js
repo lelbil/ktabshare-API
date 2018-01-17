@@ -15,10 +15,6 @@ router.get('/healthCheck', async ctx => {
 })
 //TODO: delete this test route
 router.get('/test', async ctx => {
-
-    ctx.body = ctx.session/*{
-        "erz": "Hello Walid!",
-        session
-    }*/
+    ctx.body = ctx.session
 })
 module.exports = router

@@ -13,7 +13,7 @@ const PORT = 3005 || process.env.PORT
 app.keys = ['changeThisSecret'] //TODO
 
 app
-    .use(cors())
+    .use(cors({ credentials: true }))
     .use(bodyParser())
     .use(session(app))
     .use(async (ctx, next) => {
