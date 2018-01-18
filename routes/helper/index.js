@@ -13,3 +13,12 @@ exports.mustValidate = (value, schema) => {
         }
     }
 }
+
+exports.authorization = (session, {errorMessage = null}) => {
+    const userId = session.userId
+    if (!userId) throw {
+        name: ERRORS.AUTHORIZATION_ERROR,
+        message: errorMessage || "UNAUTHORIZED: only members can perform this action",
+    }
+    return userId
+}

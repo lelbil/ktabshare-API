@@ -62,18 +62,11 @@ router.get('/', async ctx => {
 })
 
 router.post('/', async ctx => {
-
-    //validating
     helper.mustValidate(ctx.request.body, bookSchemas.postBook)
+    const userId = helper.authorization(ctx.session, {errorMessage: "Only members can add books"})
 
-    if (!ctx.session.userId) throw {
-        name: ERRORS.AUTHORIZATION_ERROR,
-        message: "Only members can add books",
-    }
-
-    //TODO: add ownerId based on session once users are handled
     const newBook = new Book(Object.assign(
-        {status: 'ready', timesRead: 0, readBy: [], ownerId: ctx.session.userId},
+        {status: 'ready', timesRead: 0, readBy: [], ownerId: userId},
         ctx.request.body)) //TODO: put status back to pending by default
 
     const createdBook = await newBook.save()
@@ -89,6 +82,8 @@ router.put('/:id', async ctx => {
 })
 
 router.put('/:id/reservation', async ctx => {
+    const userId = helper.authorization(ctx.session)
+
     const _id = ctx.params.id
 
     const book = await Book.findOne({ _id })
@@ -100,8 +95,7 @@ router.put('/:id/reservation', async ctx => {
         }
     }
 
-    //TODO: add userId to reserved by
-    await Book.updateOne({ _id }, { status: enums.RESERVED_STATUS })
+    await Book.updateOne({ _id }, { status: enums.RESERVED_STATUS, reservedBy: userId })
     ctx.status = 200
 })
 
