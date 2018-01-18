@@ -66,8 +66,15 @@ router.post('/', async ctx => {
     //validating
     helper.mustValidate(ctx.request.body, bookSchemas.postBook)
 
+    if (!ctx.session.userId) throw {
+        name: ERRORS.AUTHORIZATION_ERROR,
+        message: "Only members can add books",
+    }
+
     //TODO: add ownerId based on session once users are handled
-    const newBook = new Book(Object.assign({status: 'ready', timesRead: 0, readBy: []}, ctx.request.body)) //TODO: put status back to pending by default
+    const newBook = new Book(Object.assign(
+        {status: 'ready', timesRead: 0, readBy: [], ownerId: ctx.session.userId},
+        ctx.request.body)) //TODO: put status back to pending by default
 
     const createdBook = await newBook.save()
 

@@ -25,9 +25,11 @@ app
             if (_.includes([errors.VALIDATION_ERROR, errors.BOOK_ALREADY_RESERVED, errors.EXISTING_USERNAME_ERROR, errors.EXISTING_EMAIL_ERROR, errors.FAILED_LOGIN], error.name)) {
                 ctx.status = 400
                 return ctx.body = error
-            }
-            else if (error.name === errors.NOT_FOUND) {
+            } else if (error.name === errors.NOT_FOUND) {
                 ctx.status = 404
+                return ctx.body = error
+            } else if (error.name === errors.AUTHORIZATION_ERROR) {
+                ctx.status = 401
                 return ctx.body = error
             }
 
