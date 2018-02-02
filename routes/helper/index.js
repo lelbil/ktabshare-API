@@ -14,7 +14,7 @@ exports.mustValidate = (value, schema) => {
     }
 }
 
-exports.authorization = (session, {errorMessage = null}) => {
+exports.authorization = (session, {errorMessage = null} = {}) => {
     const userId = session.userId
     if (!userId) throw {
         name: ERRORS.AUTHORIZATION_ERROR,

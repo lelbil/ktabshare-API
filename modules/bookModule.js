@@ -4,7 +4,7 @@ const helper = require('../routes/helper')
 
 exports.getBooksWithFilters = async reqQuery => {
     let {perPage = 10, page = 1} = reqQuery
-    const { sort = 'name', languages, genres, title, author, status = "ready", ownerId } = reqQuery
+    const { sort = 'name', languages, genres, title, author, status = "ready", ownerId, reservedBy } = reqQuery
 
     perPage = Number.parseInt(perPage)
     page = Number.parseInt(page) - 1 // Subtracting one because Mongo starts counting from 0
@@ -13,13 +13,14 @@ exports.getBooksWithFilters = async reqQuery => {
     helper.mustValidate(perPage, bookValidationSchema.perPage)
 
     const query = {
-        status
+        status,
+        ownerId,
+        reservedBy
     }
     if (title) query.title = {"$regex": title, "$options": "i"} //Todo: title is user input, don't I need to sanitize it?
     if (author) query.author = {"$regex": author, "$options": "i"}
     if (languages) query.language = languages.split(',')
     if (genres) query.genres = {"$in": genres.split(',')}
-    if (ownerId) query.ownerId = ownerId
 
     const countPromise = Book
         .find(query)
