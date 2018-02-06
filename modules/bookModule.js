@@ -14,13 +14,13 @@ exports.getBooksWithFilters = async reqQuery => {
 
     const query = {
         status,
-        ownerId,
-        reservedBy
     }
     if (title) query.title = {"$regex": title, "$options": "i"} //Todo: title is user input, don't I need to sanitize it?
     if (author) query.author = {"$regex": author, "$options": "i"}
     if (languages) query.language = languages.split(',')
     if (genres) query.genres = {"$in": genres.split(',')}
+    if (ownerId) query.ownerId = ownerId
+    if (reservedBy) query.reservedBy = reservedBy
 
     const countPromise = Book
         .find(query)
