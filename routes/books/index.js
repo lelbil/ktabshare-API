@@ -22,8 +22,10 @@ router.get('/byMe', async ctx => {
 router.get('/reservedByMe', async ctx => {
     const reservedBy = helper.authorization(ctx.session, {})
 
+    const allFilters = Object.assign({}, ctx.request.query, { reservedBy, status: enums.RESERVED_STATUS })
+
     ctx.status = 200
-    ctx.body = await book.getBooksWithFilters({ reservedBy, status: enums.RESERVED_STATUS })
+    ctx.body = await book.getBooksWithFilters(allFilters)
 })
 
 router.get('/:id', async ctx => {
