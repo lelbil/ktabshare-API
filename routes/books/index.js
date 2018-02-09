@@ -58,10 +58,17 @@ router.post('/', async ctx => {
     ctx.response.body = createdBook
 })
 
-//TODO: Put this route in place 
 router.put('/:id', async ctx => {
-    const _id = ctx.params.id
+    const bookId = ctx.params.id
+    const bookInfo = ctx.request.body
 
+    helper.mustValidate(ctx.request.body, bookSchemas.postBook)
+    const userId = helper.authorization(ctx.session, {errorMessage: "Only members can update books"})
+
+    const updatedBook = await book.update(bookId, bookInfo, userId)
+
+    ctx.status = 200
+    ctx.response.body = updatedBook
 })
 
 router.put('/:id/reservation', async ctx => {

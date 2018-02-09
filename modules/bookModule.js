@@ -1,6 +1,7 @@
 const Book = require('../models/book')
 const bookValidationSchema = require('../common/validationSchemas/book')
 const helper = require('../routes/helper')
+const ERRORS = require('../common/errors')
 
 exports.getBooksWithFilters = async reqQuery => {
     let {perPage = 10, page = 1} = reqQuery
@@ -40,4 +41,17 @@ exports.getBooksWithFilters = async reqQuery => {
         count,
         hasNextPage: count - page * perPage > 0,
     }
+}
+
+//TODO: test if working error when trying to update a book that ain't yours
+exports.update = async (bookId, bookInfo, userId) => {
+    const existingBook = await Book.findById(bookId)
+    if (existingBook.ownerId !== userId) throw {
+        name: ERRORS.AUTHORIZATION_ERROR,
+        message: "UNAUTHORIZED: You can't modify a book that isn't yours",
+    }
+
+    const updatedBook = await Book.update({ _id: bookId}, bookInfo).exec()
+
+    return updatedBook
 }
