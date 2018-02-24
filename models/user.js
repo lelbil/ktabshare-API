@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt')
 
 const ERRORS = require('../common/errors')
 
-mongoose.connect('mongodb://localhost/ktabshare')
+const dbURI = process.env.DB_URI || 'mongodb://localhost/ktabshare'
+mongoose.connect(dbURI)
 
 const UserSchema = new mongoose.Schema({
     email: {

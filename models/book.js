@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/ktabshare')
+const dbURI = process.env.DB_URI || 'mongodb://localhost/ktabshare'
+mongoose.connect(dbURI)
 
 const bookSchema = new mongoose.Schema({
     title: String,

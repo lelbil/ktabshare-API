@@ -8,7 +8,7 @@ const errors = require('./common/errors')
 const router = require('./routes')
 
 const app = new Koa()
-const PORT = 3005 || process.env.PORT
+const PORT = process.env.PORT || 3005
 
 app.keys = ['changeThisSecret'] //TODO
 
