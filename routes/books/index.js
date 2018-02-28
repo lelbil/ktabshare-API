@@ -136,15 +136,4 @@ router.delete('/:id', async ctx => {
     ctx.status = 200
 })
 
-router.post('/defaultSeed', async ctx => {//TODO: make this a script
-    await Book.db.dropCollection(booksCollectionName)
-
-    defaultBooks.forEach(async book => {
-        const newBook = new Book(Object.assign({timesRead: 0, readBy: []}, book))
-        await newBook.save()
-    })
-
-    ctx.status = 201
-})
-
 module.exports = router
