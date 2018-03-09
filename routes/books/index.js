@@ -62,7 +62,7 @@ router.post('/', async ctx => {
 
     const newBook = new Book(Object.assign(
         {status: 'ready', timesRead: 0, readBy: [], ownerId: userId},
-        ctx.request.body)) //TODO: put status back to pending by default
+        ctx.request.body))
 
     const createdBook = await newBook.save()
 
