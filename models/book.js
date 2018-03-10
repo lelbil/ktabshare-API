@@ -13,7 +13,6 @@ const bookSchema = new mongoose.Schema({
     language: String,
     description: String,
     ownerId: String,
-    timesRead: { type: Number },
     readyBy: [String],
     genres: [String],
 })

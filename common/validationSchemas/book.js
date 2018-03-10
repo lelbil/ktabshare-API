@@ -10,7 +10,6 @@ const ENUMS = require('../enums')
  * @property {String}         coverPath - the path to the cover image of the book, can end up either being a relative path to a local file or a url
  * @property {String}         language  - the language in which the book is written
  * @property {String}         ownerId   - the id of the user who first posted the book a.k.a it's original owner
- * @property {Number}         timesRead - The number of times the same physical book has been given to a user
  * @property {Array<String>}  readBy    - An array of userIds of people who have read the book
  * @property {String}         genre     - the genre of a book
  */

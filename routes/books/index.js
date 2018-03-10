@@ -61,7 +61,7 @@ router.post('/', async ctx => {
     const userId = helper.authorization(ctx.session, {errorMessage: "Only members can add books"})
 
     const newBook = new Book(Object.assign(
-        {status: 'ready', timesRead: 0, readBy: [], ownerId: userId},
+        {status: 'ready', readBy: [], ownerId: userId},
         ctx.request.body))
 
     const createdBook = await newBook.save()

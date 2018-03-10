@@ -13,7 +13,7 @@ const populate_books = async () => {
     }
 
     const promises = defaultBooks.map(async book => {
-        const newBook = new Book(Object.assign({timesRead: 0, readBy: []}, book))
+        const newBook = new Book(Object.assign({readBy: []}, book))
         return newBook.save()
     })
 
