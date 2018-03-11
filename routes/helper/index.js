@@ -22,3 +22,11 @@ exports.authorization = (session, {errorMessage = null} = {}) => {
     }
     return userId
 }
+
+exports.mustBeUser = (session, desiredUserId, {errorMessage = null} = {}) => {
+    exports.authorization(session)
+    if (userId !== desiredUserId) throw {
+        name: ERRORS.AUTHORIZATION_ERROR,
+        message: errorMessage || "UNAUTHORIZED: You don't have access to this action"
+    }
+}

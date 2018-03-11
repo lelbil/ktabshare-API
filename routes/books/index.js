@@ -7,11 +7,8 @@ const helper = require('../helper')
 const bookSchemas = require('../../common/validationSchemas/book')
 const enums = require('../../common/enums')
 const ERRORS = require('../../common/errors')
-const defaultBooks = require('../../seeds/bookSeeds')
 
 const router = new KoaRouter()
-
-const booksCollectionName = 'books'
 
 router.get('/byMe', async ctx => {
     const ownerId = helper.authorization(ctx.session, {})
@@ -77,6 +74,9 @@ router.put('/:id', async ctx => {
     helper.mustValidate(ctx.request.body, bookSchemas.postBook)
     const userId = helper.authorization(ctx.session, {errorMessage: "Only members can update books"})
 
+    const book = await Book.findOne({ _id })
+    helper.mustBeUser(ctx.session, book.ownerId)
+
     const updatedBook = await book.update(bookId, bookInfo, userId)
 
     ctx.status = 200
@@ -126,6 +126,10 @@ router.put('/:id/cancelReservation', async ctx => {
 
 router.delete('/:id', async ctx => {
     const _id = ctx.params.id
+
+    const book = await Book.findOne({ _id })
+    helper.mustBeUser(ctx.session, book.ownerId)
+
     const { deletedCount } = await Book.deleteOne({ _id })
 
     if (deletedCount === 0) {
@@ -133,7 +137,7 @@ router.delete('/:id', async ctx => {
         return
     }
 
-    ctx.status = 200
+    ctx.status = 500
 })
 
 module.exports = router
