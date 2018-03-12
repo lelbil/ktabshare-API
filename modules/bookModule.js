@@ -42,16 +42,3 @@ exports.getBooksWithFilters = async reqQuery => {
         hasNextPage: count - page * perPage > 0,
     }
 }
-
-//TODO: test if working error when trying to update a book that ain't yours
-exports.update = async (bookId, bookInfo, userId) => {
-    const existingBook = await Book.findById(bookId)
-    if (existingBook.ownerId !== userId) throw {
-        name: ERRORS.AUTHORIZATION_ERROR,
-        message: "UNAUTHORIZED: You can't modify a book that isn't yours",
-    }
-
-    const updatedBook = await Book.update({ _id: bookId}, bookInfo).exec()
-
-    return updatedBook
-}
