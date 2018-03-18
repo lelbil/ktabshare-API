@@ -10,6 +10,13 @@ const ERRORS = require('../../common/errors')
 
 const router = new KoaRouter()
 
+/**
+ * Returns a 200 HTTP response if user is logged in, a 401 otherwise
+ */
+router.get('/logged', async ctx => {
+    ctx.status = ctx.session.userId ? 200 : 401
+})
+
 router.get('/byMe', async ctx => {
     const ownerId = helper.authorization(ctx.session, {})
 
