@@ -27,8 +27,10 @@ router.post('/', async ctx => {
         ctx.status = 201
     } catch (error) {
         if (error.code === 11000) {
-            if (error.index === 0) throw { name: ERRORS.EXISTING_EMAIL_ERROR, message: 'This email already exists on our database', }
-            if (error.index === 1) throw { name: ERRORS.EXISTING_USERNAME_ERROR, message: 'This username already exists on our database', }
+            const errorDuplicateKey = error.message.match(/index: ([A-Z|a-z]*)/)[1]
+
+            if (errorDuplicateKey === 'email') throw { name: ERRORS.EXISTING_EMAIL_ERROR, message: 'This email already exists on our database', }
+            if (errorDuplicateKey === 'username') throw { name: ERRORS.EXISTING_USERNAME_ERROR, message: 'This username already exists on our database', }
         }
         throw error
     }

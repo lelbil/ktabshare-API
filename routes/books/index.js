@@ -98,6 +98,7 @@ router.put('/:id/reservation', async ctx => {
     const bookInDB = await Book.findOne({ _id })
     if (bookInDB.status === enums.RESERVED_STATUS) {
         //Todo: this error should never happen as an already reserved book shouldn't be shown to a normal user. Make a log
+        //Todo: It happened. Investigate 
         throw {
             name: ERRORS.BOOK_ALREADY_RESERVED,
             message: `The book you're trying to reserve is already reserved`
